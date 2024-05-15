@@ -16,7 +16,9 @@ const detectMIME = path => new Promise((resolve, reject) => {
     })
 });
 const convertMIMEs = [
-    "application/pdf"
+    "application/pdf",
+    "application/msword",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 ];
 const allowedMIMEs = [
     "image/png",
