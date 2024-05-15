@@ -29,7 +29,7 @@ app.post("/api/upload", (req, res) => {
     setTimeout(pathToRemove => {
         if(DEBUG) console.log("Removing file", pathToRemove);
         fs.unlinkSync(pathToRemove);
-    }, 5000, path);
+    }, 60 * 60 * 1000, path);
     res.status(200).end(uuid);
 });
 
