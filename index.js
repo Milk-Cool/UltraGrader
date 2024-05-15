@@ -93,7 +93,7 @@ const createFile = data => {
 const convertAndSave = async uuid => {
     let out = [];
     const path = join(DATA_DIR, uuid);
-    const document = await pdf("example.pdf", { scale: 3 });
+    const document = await pdf(path, { scale: 3 });
     for await(const image of document) {
         const uuid = randomUUID();
         fs.writeFileSync(join(DATA_DIR, uuid), image);
