@@ -102,8 +102,8 @@ const convertAndSave = async uuid => {
     let out = [];
     const path = join(DATA_DIR, uuid);
     const document = await readpdf(path, PdfReader);
-    const [uuid] = createFile(document);
-    out.push(uuid);
+    const [newUUID] = createFile(document);
+    out.push(newUUID);
     return out.join(",");
 };
 app.post("/api/upload", async (req, res) => {
