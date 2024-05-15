@@ -97,7 +97,7 @@ const convertAndSave = async uuid => {
     for await(const image of document) {
         const uuid = randomUUID();
         fs.writeFileSync(join(DATA_DIR, uuid), image);
-        path.push(uuid);
+        out.push(uuid);
     }
     return out.join(",");
 };
