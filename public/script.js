@@ -31,8 +31,9 @@ const upload = async e => {
     return o.join(",");
 };
 
-const removeSubmission = uuid => {
-    document.querySelector(`[data-uuid='${uuid}']`).remove();
+const removeSubmission = el => {
+    const uuid = el.getAttribute("data-uuid");
+    el.remove();
     submissions = submissions.filter(x => x != uuid);
 };
 
@@ -126,7 +127,7 @@ const uploadSubmission = async e => {
         const remove = document.createElement("md-icon");
         remove.classList.add("submission-remove");
         remove.innerText = "delete";
-        remove.addEventListener("click", () => removeSubmission(uuids[i]));
+        remove.addEventListener("click", () => removeSubmission(submission));
         submission.appendChild(remove);
         document.querySelector("#submissions").appendChild(submission);
         i++;
