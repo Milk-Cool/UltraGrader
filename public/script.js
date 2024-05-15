@@ -22,10 +22,15 @@ const uploadCriteria = e => {
         });
         if(f.status != 200) return;
         criteria = await f.text();
-        document.querySelector("#criteria-name") = file.name;
+        document.querySelector("#criteria-name").innerText = file.name;
         toggleCriteriaVisibility();
     };
     fr.readAsArrayBuffer(file);
 };
-
 document.querySelector("#criteria-upload").addEventListener("change", uploadCriteria);
+
+const removeCriteria = () => {
+    criteria = "";
+    toggleCriteriaVisibility();
+};
+document.querySelector("#criteria-remove").addEventListener("click", removeCriteria);
