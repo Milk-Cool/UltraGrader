@@ -17,8 +17,7 @@ const detectMIME = path => new Promise((resolve, reject) => {
 });
 const convertMIMEs = [
     "application/pdf",
-    "application/msword",
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    "application/zip"
 ];
 const allowedMIMEs = [
     "image/png",
@@ -109,8 +108,7 @@ const convertAndSave = async (uuid, mime) => {
             const document = await readpdf(path, PdfReader);
             const [newUUID] = createFile(document);
             return newUUID;
-        case "application/msword":
-        case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+        case "application/zip":
             const document0 = (await extractor.extract(i)).getBody();
             const [newUUID0] = createFile(document0);
             return newUUID0;
