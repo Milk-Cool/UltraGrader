@@ -88,7 +88,7 @@ const analyzeDisplay = async uuids => {
         nameAndGrade.appendChild(name);
         nameAndGrade.appendChild(grade);
         card.appendChild(nameAndGrade);
-        const explanation = document.createElement("h3");
+        const explanation = document.createElement("pre");
         explanation.innerText = i.explanation;
         card.appendChild(explanation);
         document.querySelector(".grader").appendChild(card);

@@ -19,6 +19,7 @@ md-icon {
 
 .files {
     height: calc(0.85 * (100% - 4em));
+    overflow-y: scroll;
 }
 
 .all {
@@ -78,4 +79,5 @@ md-icon {
     --md-elevation-level: 3;
     border-radius: 2em;
     background: var(--md-sys-color-primary-container);
+    width: 60vw;
 }
