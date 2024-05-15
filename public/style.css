@@ -18,10 +18,15 @@ md-icon {
 }
 
 .files {
-    height: 90%;
+    height: calc(0.85 * (100% - 4em));
 }
 
 .all {
+    height: calc(0.15 * (100% - 4em));
+}
+
+#all {
+    position: relative;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);

@@ -88,7 +88,7 @@ const analyzeDisplay = async uuids => {
     }
 };
 document.querySelector("#all").addEventListener("click", () => {
-    const allFiles = criteria + submissions.join(",");
+    const allFiles = `${criteria},${submissions.join(",")}`;
     analyzeDisplay(allFiles);
 });
 
