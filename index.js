@@ -24,7 +24,12 @@ app.use(express.raw({
 app.post("/api/upload", (req, res) => {
     const uuid = randomUUID();
     if(DEBUG) console.log("New file", uuid);
-    fs.writeFileSync(join(DATA_DIR, uuid), req.body);
+    const path = join(DATA_DIR, uuid);
+    fs.writeFileSync(path, req.body);
+    setTimeout(pathToRemove => {
+        if(DEBUG) console.log("Removing file", pathToRemove);
+        fs.unlinkSync(pathToRemove);
+    }, 5000, path);
     res.status(200).end(uuid);
 });
 
