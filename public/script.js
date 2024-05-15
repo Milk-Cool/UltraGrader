@@ -9,21 +9,22 @@ const toggleCriteriaVisibility = () => {
 const upload = e => new Promise((resolve, reject) => {
     const files = e.target.files;
     if(!files || files.length == 0) reject();
-    const file = files[0];
-    const fr = new FileReader();
-    fr.onload = async e2 => {
-        if(e2.target.readyState != FileReader.DONE) return;
-        const f = await fetch("/api/upload", {
-            "method": "POST",
-            "body": e2.target.result,
-            "headers": {
-                "Content-Type": "application/octet-stream"
-            }
-        });
-        if(f.status != 200) reject();
-        resolve(f.text());
-    };
-    fr.readAsArrayBuffer(file);
+    for(const file of files) {
+        const fr = new FileReader();
+        fr.onload = async e2 => {
+            if(e2.target.readyState != FileReader.DONE) return;
+            const f = await fetch("/api/upload", {
+                "method": "POST",
+                "body": e2.target.result,
+                "headers": {
+                    "Content-Type": "application/octet-stream"
+                }
+            });
+            if(f.status != 200) reject();
+            resolve(f.text());
+        };
+        fr.readAsArrayBuffer(file);
+    }
 });
 
 const removeSubmission = uuid => {
