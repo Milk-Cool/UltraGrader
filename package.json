@@ -5,6 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "build": "rollup -p @rollup/plugin-node-resolve src/index.js --file public/bundle.js --format iife",
+    "pretest": "npm run build",
     "test": "DEBUG=1 node index.js",
     "start": "node index.js"
   },
@@ -23,6 +25,9 @@
   },
   "homepage": "https://github.com/Milk-Cool/UltraGrader#readme",
   "dependencies": {
-    "@material/web": "^1.4.1"
+    "@material/web": "^1.4.1",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "express": "^4.19.2",
+    "rollup": "^4.17.2"
   }
 }

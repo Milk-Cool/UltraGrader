@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>UltraGrader</title>
+        <meta charset="utf-8">
+        <script type="module" src="bundle.js"></script>
+        <script src="script.js" defer></script>
+        <link href="style.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="sidebar">
+            <p><b>Please note that your submissions will be deleted after an hour or as soon as you close the tab.</b></p>
+            <hr>
+            <p>The criteria</p>
+            <div id="criteria-empty">
+                <md-filled-button onclick="document.querySelector('#criteria-upload').click()">Upload</md-filled-button>
+                <input type="file" hidden id="criteria-upload">
+            </div>
+            <div id="criteria" class="hidden">
+                <p><b id="criteria-name"></b></p>
+                <md-outlined-button>Remove</md-outlined-button>
+            </div>
+        </div>
+        <div class="grader"></div>
+    </body>
+</html>
