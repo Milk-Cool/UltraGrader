@@ -55,6 +55,10 @@ md-icon {
     flex: 2;
 }
 
+.submission-name {
+    cursor: pointer;
+}
+
 .submission-remove, .grade {
     display: flex;
     flex: 1;
