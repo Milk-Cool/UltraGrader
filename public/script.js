@@ -75,7 +75,7 @@ const analyzeDisplay = async uuids => {
     document.querySelector(".grader").replaceChildren();
     const res = await analyze(uuids);
     for(const i of res) {
-        const card = document.createElement("md-elevation");
+        const card = document.createElement("div");
         card.classList.add("card");
         const nameAndGrade = document.createElement("div");
         nameAndGrade.classList.add("name-and-grade");
