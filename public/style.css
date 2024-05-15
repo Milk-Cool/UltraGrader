@@ -17,28 +17,56 @@ md-icon {
     border-right: 2px solid black;
 }
 
+.files {
+    height: 90%;
+}
+
+.all {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 .grader {
     top: 0;
     left: 30vw;
     width: 70vw;
     height: 100vh;
+
+    text-align: center;
 }
 
 .hidden {
     display: none;
 }
 
-.submission {
+.submission, .name-and-grade {
     display: flex;
     flex-direction: row;
 }
 
-.submission-name {
+.submission-name, .name {
     display: flex;
     flex: 2;
 }
 
-.submission-remove {
+.submission-remove, .grade {
     display: flex;
     flex: 1;
+}
+
+.grade {
+    border-radius: 2em;
+    font-size: 6em;
+    padding: 1em;
+    height: 8em;
+    text-align: right;
+}
+
+.card {
+    padding: 2em;
+    margin: 2em;
+    --md-elevation-level: 3;
+    border-radius: 2em;
+    background: var(--md-sys-color-primary-container);
 }

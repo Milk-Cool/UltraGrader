@@ -4,7 +4,7 @@ let submissions = [];
 const toggleCriteriaVisibility = () => {
     document.querySelector("#criteria-empty").classList.toggle("hidden");
     document.querySelector("#criteria").classList.toggle("hidden");
-}
+};
 
 const upload = e => new Promise((resolve, reject) => {
     const files = e.target.files;
@@ -29,7 +29,68 @@ const upload = e => new Promise((resolve, reject) => {
 const removeSubmission = uuid => {
     document.querySelector(`[data-uuid='${uuid}']`).remove();
     submissions = submissions.filter(x => x != uuid);
-}
+};
+
+/** @typedef {{ name: string, grade: string, explanation: string }} Analysis */
+/** @type {Analysis[]} */
+const analyze = async uuids => {
+    if(typeof uuids !== "string")
+        uuids = uuids.join(",");
+    /** @type {Analysis[]} */
+    let out = [];
+    const f = await fetch("/api/grade", {
+        "method": "POST",
+        "body": uuids,
+        "headers": {
+            "Content-Type": "application/octet-stream"
+        }
+    });
+    if(f.status != 200) throw new Error("can't grade assignment!");
+    let text = await f.text();
+    text = text.slice(text.indexOf("(("));
+    while(text.includes("((")) {
+        const nameStart = text.indexOf("((") + 2;
+        const nameEnd = text.indexOf("))");
+        const name = text.slice(nameStart, nameEnd);
+        if(name == "end") return out;
+        const nextNameStart = text.slice(nameStart).indexOf("((");
+        const grade = text.slice(0, nextNameStart).match(/(?<=\[\[)[^\]]+(?=]])/)?.[0];
+        out.push({
+            name: name,
+            grade: grade,
+            explanation: text.slice(nameEnd + 2, nextNameStart).replace(`[[${grade}]]`, "")
+        });
+        text = text.slice(nextNameStart);
+    }
+    return out;
+};
+const analyzeDisplay = async uuids => {
+    document.querySelector(".grader").replaceChildren();
+    const res = await analyze(uuids);
+    for(const i of res) {
+        const card = document.createElement("md-elevation");
+        card.classList.add("card");
+        const nameAndGrade = document.createElement("div");
+        nameAndGrade.classList.add("name-and-grade");
+        const name = document.createElement("h1");
+        name.classList.add("name");
+        name.innerText = i.name;
+        const grade = document.createElement("md-elevation");
+        grade.classList.add("grade");
+        grade.innerText = i.grade;
+        nameAndGrade.appendChild(name);
+        nameAndGrade.appendChild(grade);
+        card.appendChild(nameAndGrade);
+        const explanation = document.createElement("h3");
+        explanation.innerText = i.explanation;
+        card.appendChild(explanation);
+        document.querySelector(".grader").appendChild(card);
+    }
+};
+document.querySelector("#all").addEventListener("click", () => {
+    const allFiles = criteria + submissions.join(",");
+    analyzeDisplay(allFiles);
+});
 
 const uploadCriteria = async e => {
     criteria = await upload(e);
@@ -47,6 +108,10 @@ const uploadSubmission = async e => {
     const name = document.createElement("p");
     name.classList.add("submission-name");
     name.innerText = e.target.files[0]?.name;
+    name.addEventListener("click", () => {
+        const files = `${criteria},${uuid}`;
+        analyzeDisplay(files);
+    })
     submission.appendChild(name);
     const remove = document.createElement("md-icon");
     remove.classList.add("submission-remove");

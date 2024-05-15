@@ -10,22 +10,27 @@
     </head>
     <body>
         <div class="sidebar">
-            <p><b>Please note that your submissions will be deleted after an hour.</b></p>
-            <hr>
-            <p><b>The criteria</b></p>
-            <div id="criteria-empty">
-                <md-filled-button onclick="document.querySelector('#criteria-upload').click()">Upload</md-filled-button>
-                <input type="file" hidden id="criteria-upload">
+            <div class="files">
+                <p><b>Please note that your submissions will be deleted after an hour.</b></p>
+                <hr>
+                <p><b>The criteria</b></p>
+                <div id="criteria-empty">
+                    <md-filled-button onclick="document.querySelector('#criteria-upload').click()">Upload</md-filled-button>
+                    <input type="file" hidden id="criteria-upload">
+                </div>
+                <div id="criteria" class="hidden">
+                    <p id="criteria-name"></p>
+                    <md-outlined-button id="criteria-remove">Remove</md-outlined-button>
+                </div>
+                <hr>
+                <p><b>The submissions</b></p>
+                <div id="submissions"></div>
+                <md-filled-button onclick="document.querySelector('#submission-upload').click()">Upload</md-filled-button>
+                <input type="file" hidden id="submission-upload">
             </div>
-            <div id="criteria" class="hidden">
-                <p id="criteria-name"></p>
-                <md-outlined-button id="criteria-remove">Remove</md-outlined-button>
+            <div class="all">
+                <md-outlined-button id="all">Grade all</md-outlined-button>
             </div>
-            <hr>
-            <p><b>The submissions</b></p>
-            <div id="submissions"></div>
-            <md-filled-button onclick="document.querySelector('#submission-upload').click()">Upload</md-filled-button>
-            <input type="file" hidden id="submission-upload">
         </div>
         <div class="grader"></div>
     </body>
