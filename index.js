@@ -109,7 +109,7 @@ const convertAndSave = async (uuid, mime) => {
             const [newUUID] = createFile(document);
             return newUUID;
         case "application/zip":
-            const document0 = (await extractor.extract(i)).getBody();
+            const document0 = (await extractor.extract(path)).getBody();
             const [newUUID0] = createFile(document0);
             return newUUID0;
     }
