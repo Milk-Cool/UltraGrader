@@ -1,0 +1,28 @@
+{
+  "name": "ultragrader",
+  "version": "0.1.0",
+  "description": "An AI assignment grader, powered by Google's Gemini API.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "DEBUG=1 node index.js",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Milk-Cool/UltraGrader.git"
+  },
+  "keywords": [
+    "grader",
+    "gemini"
+  ],
+  "author": "Milk_Cool",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Milk-Cool/UltraGrader/issues"
+  },
+  "homepage": "https://github.com/Milk-Cool/UltraGrader#readme",
+  "dependencies": {
+    "@material/web": "^1.4.1"
+  }
+}
