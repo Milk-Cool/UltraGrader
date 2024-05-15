@@ -4,7 +4,7 @@ import { join } from "path";
 import { randomUUID } from "crypto";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import mmm from "mmmagic";
-import { pdf } from "pdf-to-img";
+import { PdfReader } from "pdfreader";
 
 const { Magic, MAGIC_MIME_TYPE } = mmm;
 const magic = new Magic(MAGIC_MIME_TYPE);
@@ -90,14 +90,20 @@ const createFile = data => {
     }, 60 * 60 * 1000, path);
     return [uuid, timeout];
 };
+const readpdf = p => new Promise(resolve => {
+    let r = "";
+    (new PdfReader()).parseFileItems(p, (err, item) => {
+        if(err) resolve("");
+        else if(!item) resolve(r);
+        else r += item.text;
+    });
+});
 const convertAndSave = async uuid => {
     let out = [];
     const path = join(DATA_DIR, uuid);
-    const document = await pdf(path, { scale: 3 });
-    for await(const image of document) {
-        const [uuid] = createFile(image);
-        out.push(uuid);
-    }
+    const document = await readpdf(path, PdfReader);
+    const [uuid] = createFile(document);
+    out.push(uuid);
     return out.join(",");
 };
 app.post("/api/upload", async (req, res) => {
