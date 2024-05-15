@@ -58,7 +58,8 @@ const analyze = async uuids => {
         const nameEnd = text.indexOf("))");
         const name = text.slice(nameStart, nameEnd);
         if(name == "end") return out;
-        const nextNameStart = text.slice(nameStart).indexOf("((");
+        let nextNameStart = text.slice(nameStart).indexOf("((");
+        if(nextNameStart == -1) nextNameStart = text.slice(nameStart).length;
         const grade = text.slice(0, nextNameStart).match(/(?<=\[\[)[^\]]+(?=]])/)?.[0];
         out.push({
             name: name,
