@@ -4,6 +4,7 @@ import { join } from "path";
 import { randomUUID } from "crypto";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import mmm from "mmmagic";
+import { pdf } from "pdf-to-img";
 
 const { Magic, MAGIC_MIME_TYPE } = mmm;
 const magic = new Magic(MAGIC_MIME_TYPE);
@@ -13,6 +14,9 @@ const detectMIME = path => new Promise((resolve, reject) => {
         else resolve(result);
     })
 });
+const convertMIMEs = [
+    "application/pdf"
+];
 const allowedMIMEs = [
     "image/png",
     "image/jpeg",
@@ -75,15 +79,37 @@ app.use(express.static("public/"));
 app.use(express.raw({
     "limit": "2mb"
 }));
-app.post("/api/upload", (req, res) => {
+const createFile = data => {
     const uuid = randomUUID();
     if(DEBUG) console.log("New file", uuid);
     const path = join(DATA_DIR, uuid);
-    fs.writeFileSync(path, req.body);
-    setTimeout(pathToRemove => {
+    fs.writeFileSync(path, data);
+    const timeout = setTimeout(pathToRemove => {
         if(DEBUG) console.log("Removing file", pathToRemove);
         fs.unlinkSync(pathToRemove);
     }, 60 * 60 * 1000, path);
+    return [uuid, timeout];
+};
+const convertAndSave = async uuid => {
+    let out = [];
+    const path = join(DATA_DIR, uuid);
+    const document = await pdf("example.pdf", { scale: 3 });
+    for await(const image of document) {
+        const uuid = randomUUID();
+        fs.writeFileSync(join(DATA_DIR, uuid), image);
+        path.push(uuid);
+    }
+    return out.join(",");
+};
+app.post("/api/upload", async (req, res) => {
+    let [uuid, timeout] = createFile(req.body);
+    const path = join(DATA_DIR, uuid);
+    const mime = await detectMIME(path);
+    if(convertMIMEs.includes(mime)) {
+        clearTimeout(timeout);
+        uuid = await convertAndSave(uuid);
+        fs.unlinkSync(path);
+    }
     res.status(200).end(uuid);
 });
 app.post("/api/grade", async (req, res) => {
@@ -106,7 +132,7 @@ app.post("/api/grade", async (req, res) => {
         if(DEBUG) console.log(parts[parts.length - 1]);
     }
     const prompt = `You need to grade the given assignments according to the given criteria.
-Important: You HAVE TO PROVIDE EXAMPLES from the text that your grade will be based on.`;
+Important: You HAVE TO PROVIDE EXAMPLES and JUSTIFICATION from the text that your grade will be based on.`;
     const result = await model.generateContent([prompt, ...parts]);
     const response = await result.response;
     const text = response.text();

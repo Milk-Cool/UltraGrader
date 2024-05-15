@@ -30,6 +30,7 @@
     "@rollup/plugin-node-resolve": "^15.2.3",
     "express": "^4.19.2",
     "mmmagic": "^0.5.3",
+    "pdf-to-img": "^2.1.2",
     "rollup": "^4.17.2"
   }
 }
