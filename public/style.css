@@ -80,4 +80,5 @@ md-icon {
     border-radius: 2em;
     background: #9a96a3;
     width: 50vw;
+    height: min-content;
 }
