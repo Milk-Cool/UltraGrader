@@ -41,19 +41,15 @@ const uploadSubmission = async e => {
     const uuid = await upload(e);
     submissions.push(uuid);
 
-    // TODO: style -> class transition
     const submission = document.createElement("div");
-    submission.style.display = "flex";
-    submission.style.flexDirection = "row";
+    submission.classList.add("submission");
     submission.setAttribute("data-uuid", uuid);
     const name = document.createElement("p");
-    name.style.display = "flex";
-    name.style.flex = "2";
+    name.classList.add("submission-name");
     name.innerText = e.target.files[0]?.name;
     submission.appendChild(name);
     const remove = document.createElement("md-icon");
-    remove.style.display = "flex";
-    remove.style.flex = "1";
+    remove.classList.add("submission-remove");
     remove.innerText = "delete";
     remove.addEventListener("click", () => removeSubmission(uuid));
     submission.appendChild(remove);

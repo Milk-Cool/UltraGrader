@@ -27,3 +27,18 @@ md-icon {
 .hidden {
     display: none;
 }
+
+.submission {
+    display: flex;
+    flex-direction: row;
+}
+
+.submission-name {
+    display: flex;
+    flex: 2;
+}
+
+.submission-remove {
+    display: flex;
+    flex: 1;
+}
