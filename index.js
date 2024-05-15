@@ -5,6 +5,7 @@ import { randomUUID } from "crypto";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import mmm from "mmmagic";
 import { PdfReader } from "pdfreader";
+import WordExtractor from "word-extractor";
 
 const { Magic, MAGIC_MIME_TYPE } = mmm;
 const magic = new Magic(MAGIC_MIME_TYPE);
@@ -54,6 +55,7 @@ const allowedMIMEs = [
     "application/rtf",
     "text/rtf"
 ];
+const extractor = new WordExtractor();
 
 process.on("unhandledRejection", console.error);
 process.on("uncaughtException", console.error);
@@ -98,13 +100,19 @@ const readpdf = p => new Promise(resolve => {
         else r += item.text;
     });
 });
-const convertAndSave = async uuid => {
-    let out = [];
+const convertAndSave = async (uuid, mime) => {
     const path = join(DATA_DIR, uuid);
-    const document = await readpdf(path, PdfReader);
-    const [newUUID] = createFile(document);
-    out.push(newUUID);
-    return out.join(",");
+    switch(mime) {
+        case "application/pdf":
+            const document = await readpdf(path, PdfReader);
+            const [newUUID] = createFile(document);
+            return newUUID;
+        case "application/msword":
+        case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+            const document0 = (await extractor.extract(i)).getBody();
+            const [newUUID0] = createFile(document0);
+            return newUUID0;
+    }
 };
 app.post("/api/upload", async (req, res) => {
     let [uuid, timeout] = createFile(req.body);
@@ -112,7 +120,7 @@ app.post("/api/upload", async (req, res) => {
     const mime = await detectMIME(path);
     if(convertMIMEs.includes(mime)) {
         clearTimeout(timeout);
-        uuid = await convertAndSave(uuid);
+        uuid = await convertAndSave(uuid, mime);
         fs.unlinkSync(path);
     }
     res.status(200).end(uuid);
