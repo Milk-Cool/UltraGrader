@@ -71,7 +71,7 @@ const analyze = async uuids => {
 };
 const analyzeDisplay = async uuids => {
     if(typeof uuids === "object")
-        uuids = `${criteria},${uuids.parent.getAttribute("data-uuid")}`;
+        uuids = `${criteria},${uuids.parentNode.getAttribute("data-uuid")}`;
     document.querySelector(".grader").replaceChildren();
     const res = await analyze(uuids);
     for(const i of res) {
