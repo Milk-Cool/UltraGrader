@@ -95,8 +95,7 @@ const convertAndSave = async uuid => {
     const path = join(DATA_DIR, uuid);
     const document = await pdf(path, { scale: 3 });
     for await(const image of document) {
-        const uuid = randomUUID();
-        fs.writeFileSync(join(DATA_DIR, uuid), image);
+        const [uuid] = createFile(image);
         out.push(uuid);
     }
     return out.join(",");
