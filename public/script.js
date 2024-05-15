@@ -82,7 +82,7 @@ const analyzeDisplay = async uuids => {
         const name = document.createElement("h1");
         name.classList.add("name");
         name.innerText = i.name;
-        const grade = document.createElement("md-elevation");
+        const grade = document.createElement("div");
         grade.classList.add("grade");
         grade.innerText = i.grade;
         nameAndGrade.appendChild(name);
@@ -90,6 +90,7 @@ const analyzeDisplay = async uuids => {
         card.appendChild(nameAndGrade);
         const explanation = document.createElement("pre");
         explanation.innerText = i.explanation;
+        explanation.style.textWrap = "pretty";
         card.appendChild(explanation);
         document.querySelector(".grader").appendChild(card);
     }
