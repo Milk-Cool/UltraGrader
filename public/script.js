@@ -6,9 +6,9 @@ const toggleCriteriaVisibility = () => {
     document.querySelector("#criteria").classList.toggle("hidden");
 }
 
-const uploadCriteria = e => {
+const upload = e => new Promise((resolve, reject) => {
     const files = e.target.files;
-    if(!files || files.length == 0) return;
+    if(!files || files.length == 0) reject();
     const file = files[0];
     const fr = new FileReader();
     fr.onload = async e2 => {
@@ -20,14 +20,46 @@ const uploadCriteria = e => {
                 "Content-Type": "application/octet-stream"
             }
         });
-        if(f.status != 200) return;
-        criteria = await f.text();
-        document.querySelector("#criteria-name").innerText = file.name;
-        toggleCriteriaVisibility();
+        if(f.status != 200) reject();
+        resolve(f.text());
     };
     fr.readAsArrayBuffer(file);
+});
+
+const removeSubmission = uuid => {
+    document.querySelector(`[data-uuid='${uuid}']`).remove();
+    submissions = submissions.filter(x => x != uuid);
+}
+
+const uploadCriteria = async e => {
+    criteria = await upload(e);
+    document.querySelector("#criteria-name").innerText = e.target.files[0]?.name;
+    toggleCriteriaVisibility();
 };
 document.querySelector("#criteria-upload").addEventListener("change", uploadCriteria);
+const uploadSubmission = async e => {
+    const uuid = await upload(e);
+    submissions.push(uuid);
+
+    // TODO: style -> class transition
+    const submission = document.createElement("div");
+    submission.style.display = "flex";
+    submission.style.flexDirection = "row";
+    submission.setAttribute("data-uuid", uuid);
+    const name = document.createElement("p");
+    name.style.display = "flex";
+    name.style.flex = "2";
+    name.innerText = e.target.files[0]?.name;
+    submission.appendChild(name);
+    const remove = document.createElement("md-icon");
+    remove.style.display = "flex";
+    remove.style.flex = "1";
+    remove.innerText = "delete";
+    remove.addEventListener("click", () => removeSubmission(uuid));
+    submission.appendChild(remove);
+    document.querySelector("#submissions").appendChild(submission);
+};
+document.querySelector("#submission-upload").addEventListener("change", uploadSubmission);
 
 const removeCriteria = () => {
     criteria = "";

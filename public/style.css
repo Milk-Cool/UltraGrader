@@ -4,6 +4,11 @@
     padding: 2em;
 }
 
+md-icon {
+    margin: 12px;
+    cursor: pointer;
+}
+
 .sidebar {
     top: 0;
     left: 0;

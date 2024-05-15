@@ -5,21 +5,27 @@
         <meta charset="utf-8">
         <script type="module" src="bundle.js"></script>
         <script src="script.js" defer></script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
         <link href="style.css" rel="stylesheet">
     </head>
     <body>
         <div class="sidebar">
             <p><b>Please note that your submissions will be deleted after an hour.</b></p>
             <hr>
-            <p>The criteria</p>
+            <p><b>The criteria</b></p>
             <div id="criteria-empty">
                 <md-filled-button onclick="document.querySelector('#criteria-upload').click()">Upload</md-filled-button>
                 <input type="file" hidden id="criteria-upload">
             </div>
             <div id="criteria" class="hidden">
-                <p><b id="criteria-name"></b></p>
+                <p id="criteria-name"></p>
                 <md-outlined-button id="criteria-remove">Remove</md-outlined-button>
             </div>
+            <hr>
+            <p><b>The submissions</b></p>
+            <div id="submissions"></div>
+            <md-filled-button onclick="document.querySelector('#submission-upload').click()">Upload</md-filled-button>
+            <input type="file" hidden id="submission-upload">
         </div>
         <div class="grader"></div>
     </body>
