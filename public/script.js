@@ -104,8 +104,8 @@ const uploadCriteria = async e => {
 };
 document.querySelector("#criteria-upload").addEventListener("change", uploadCriteria);
 const uploadSubmission = async e => {
-    const uuids = await upload(e);
-    for(const i of uuids.split(","))
+    const uuids = (await upload(e)).split(",");
+    for(const i of uuids)
         submissions.push(i);
     let i = 0;
     for(const file of e.target.files) {
