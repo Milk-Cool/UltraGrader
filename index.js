@@ -148,6 +148,7 @@ app.post("/api/grade", async (req, res) => {
     }
     const prompt = `You need to grade the given assignments according to the given criteria.
 Important: You HAVE TO PROVIDE EXAMPLES and JUSTIFICATION from the text that your grade will be based on.
+However, these examples and justification should be no longer than four sentences.
 Put the actual grades in double brackets, e. g. [[7/8]].
 Before grading a student's work, specify their name in double parentheses, e. g. ((John Smith)).
 Put the grades after the students' names.
