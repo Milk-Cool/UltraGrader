@@ -66,9 +66,11 @@ md-icon {
 
 .card {
     padding: 2em;
-    margin: 2em;
+    margin-bottom: 2em;
     background: #d9cff1;
     border: 2px solid #6750a4;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .card, .grade {
