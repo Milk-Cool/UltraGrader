@@ -17,6 +17,7 @@ const detectMIME = path => new Promise((resolve, reject) => {
 });
 const convertMIMEs = [
     "application/pdf",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     "application/zip"
 ];
 const allowedMIMEs = [
@@ -108,6 +109,7 @@ const convertAndSave = async (uuid, mime) => {
             const document = await readpdf(path, PdfReader);
             const [newUUID] = createFile(document);
             return newUUID;
+        case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
         case "application/zip":
             const document0 = (await extractor.extract(path)).getBody();
             const [newUUID0] = createFile(document0);

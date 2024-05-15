@@ -70,6 +70,8 @@ const analyze = async uuids => {
     return out;
 };
 const analyzeDisplay = async uuids => {
+    if(typeof uuids === "object")
+        uuids = `${criteria},${uuids.getAttribute("data-uuid")}`;
     document.querySelector(".grader").replaceChildren();
     const res = await analyze(uuids);
     for(const i of res) {
@@ -116,9 +118,8 @@ const uploadSubmission = async e => {
         name.classList.add("submission-name");
         name.innerText = file.name;
         name.addEventListener("click", () => {
-            const files = `${criteria},${uuids[i]}`;
-            analyzeDisplay(files);
-        })
+            analyzeDisplay(name);
+        });
         submission.appendChild(name);
         const remove = document.createElement("md-icon");
         remove.classList.add("submission-remove");
