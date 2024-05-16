@@ -53,7 +53,8 @@ md-icon {
 
 .submission-name, .name {
     display: flex;
-    flex: 2;
+    width: calc(100% - 44px); /* Width of the icon */
+    word-break: break-all;
 }
 
 .submission-name {
