@@ -125,10 +125,12 @@ const uploadSubmission = async e => {
             analyzeDisplay(name);
         });
         submission.appendChild(name);
-        const remove = document.createElement("md-icon");
+        const remove = document.createElement("md-icon-button");
         remove.classList.add("submission-remove");
-        remove.innerText = "delete";
         remove.addEventListener("click", () => removeSubmission(submission));
+        const removeIcon = document.createElement("md-icon");
+        removeIcon.innerText = "delete";
+        remove.appendChild(removeIcon);
         submission.appendChild(remove);
         document.querySelector("#submissions").appendChild(submission);
         i++;
