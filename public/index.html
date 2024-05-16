@@ -17,6 +17,7 @@
                 <div id="criteria-empty">
                     <md-filled-button onclick="document.querySelector('#criteria-upload').click()">Upload</md-filled-button>
                     <input type="file" hidden id="criteria-upload">
+                    <md-circular-progress indeterminate id="criteria-loading" class="hidden"></md-circular-progress>
                 </div>
                 <div id="criteria" class="hidden">
                     <p id="criteria-name"></p>
@@ -25,6 +26,7 @@
                 <hr>
                 <p><b>The submissions</b></p>
                 <div id="submissions"></div>
+                <md-circular-progress indeterminate id="submissions-loading" class="hidden"></md-circular-progress>
                 <md-filled-button onclick="document.querySelector('#submission-upload').click()">Upload</md-filled-button>
                 <input type="file" hidden id="submission-upload" multiple>
             </div>

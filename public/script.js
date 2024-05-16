@@ -5,6 +5,12 @@ const toggleCriteriaVisibility = () => {
     document.querySelector("#criteria-empty").classList.toggle("hidden");
     document.querySelector("#criteria").classList.toggle("hidden");
 };
+const toggleCriteriaLoadingVisibility = () => {
+    document.querySelector("#criteria-loading").classList.toggle("hidden");
+}
+const toggleSubmissionsLoadingVisibility = () => {
+    document.querySelector("#submissions-loading").classList.toggle("hidden");
+}
 
 const uploadOne = file => new Promise((resolve, reject) => {
     const fr = new FileReader();
@@ -104,12 +110,15 @@ document.querySelector("#all").addEventListener("click", () => {
 });
 
 const uploadCriteria = async e => {
+    toggleSubmissionsLoadingVisibility();
     criteria = await upload(e);
     document.querySelector("#criteria-name").innerText = e.target.files[0]?.name;
     toggleCriteriaVisibility();
+    toggleSubmissionsLoadingVisibility();
 };
 document.querySelector("#criteria-upload").addEventListener("change", uploadCriteria);
 const uploadSubmission = async e => {
+    toggleSubmissionsLoadingVisibility();
     const uuids = (await upload(e)).split(",");
     for(const i of uuids)
         submissions.push(i);
@@ -135,6 +144,7 @@ const uploadSubmission = async e => {
         document.querySelector("#submissions").appendChild(submission);
         i++;
     }
+    toggleSubmissionsLoadingVisibility();
 };
 document.querySelector("#submission-upload").addEventListener("change", uploadSubmission);
 
