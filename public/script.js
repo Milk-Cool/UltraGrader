@@ -112,11 +112,11 @@ document.querySelector("#all").addEventListener("click", async () => {
 });
 
 const uploadCriteria = async e => {
-    toggleSubmissionsLoadingVisibility();
+    toggleCriteriaLoadingVisibility();
     criteria = await upload(e);
     document.querySelector("#criteria-name").innerText = e.target.files[0]?.name;
     toggleCriteriaVisibility();
-    toggleSubmissionsLoadingVisibility();
+    toggleCriteriaLoadingVisibility();
 };
 document.querySelector("#criteria-upload").addEventListener("change", uploadCriteria);
 const uploadSubmission = async e => {
