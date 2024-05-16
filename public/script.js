@@ -104,9 +104,11 @@ const analyzeDisplay = async uuids => {
         document.querySelector(".grader").appendChild(card);
     }
 };
-document.querySelector("#all").addEventListener("click", () => {
+document.querySelector("#all").addEventListener("click", async () => {
+    document.querySelector("#all").disabled = true;
     const allFiles = `${criteria},${submissions.join(",")}`;
-    analyzeDisplay(allFiles);
+    await analyzeDisplay(allFiles);
+    document.querySelector("#all").disabled = false;
 });
 
 const uploadCriteria = async e => {
