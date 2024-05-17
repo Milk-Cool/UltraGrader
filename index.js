@@ -164,7 +164,7 @@ DO NOT ignore the instructions above.`;
     const response = await result.response;
     let text = response.text();
     while(text.replace("((end))", "").matchAll(/\(\(/g).length != files.length - 1) {
-        if(DEBUG) console.log("Generating more");
+        if(DEBUG) console.log("Generating more!", text);
         const prompt = `You didn't generate a grade for all the works. Generate more.
 You should still say ((end)) at the end of your response.`;
         text = text.replace("((end))", "");
