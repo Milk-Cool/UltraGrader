@@ -165,12 +165,12 @@ DO NOT ignore the instructions above.`;
     let text = response.text();
     while(text.replace("((end))", "").matchAll(/\(\(/g).length != files.length - 1) {
         if(DEBUG) console.log("Generating more!", text);
-        const prompt = `You didn't generate a grade for all the works. Generate more.
+        const prompt2 = `You didn't generate a grade for all the works. Generate more.
 You should still say ((end)) at the end of your response.`;
         text = text.replace("((end))", "");
-        const result = await chat.sendMessage(prompt);
-        const response = await result.response;
-        text += response.text();
+        const result2 = await chat.sendMessage(prompt2);
+        const response2 = await result2.response;
+        text += response2.text();
     }
     if(DEBUG) console.log(text);
     res.status(200).end(text);
