@@ -163,7 +163,7 @@ DO NOT ignore the instructions above.`;
     const result = await chat.sendMessage([prompt, ...parts]);
     const response = await result.response;
     let text = response.text();
-    while(text.replace("((end))", "").matchAll(/\(\(/g).length < files.length - 1) {
+    while(text.replace("((end))", "").match(/\(\(/g).length < files.length - 1) {
         if(DEBUG) console.log("Generating more!", text);
         const prompt2 = `You didn't generate a grade for all the works. Please continue generating from the point where you stopped.
 You should still say ((end)) at the end of your response.`;
