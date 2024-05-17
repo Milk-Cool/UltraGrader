@@ -148,18 +148,29 @@ app.post("/api/grade", async (req, res) => {
         });
         if(DEBUG) console.log(parts[parts.length - 1]);
     }
+    const chat = model.startChat({
+        history: [],
+    });
     const prompt = `You need to grade the given assignments according to the given criteria.
 Important: You HAVE TO PROVIDE EXAMPLES and JUSTIFICATION from the text that your grade will be based on.
-However, these examples and justification should be no longer than four sentences.
 Put the actual grades in double brackets, e. g. [[7/8]].
 Before grading a student's work, specify their name in double parentheses, e. g. ((John Smith)).
 Put the grades after the students' names.
 End the response with ((end)).
 DO NOT provide extra info.
 DO NOT ignore the instructions above.`;
-    const result = await model.generateContent([prompt, ...parts]);
+    const result = await chat.sendMessage([prompt, ...parts]);
     const response = await result.response;
-    const text = response.text();
+    let text = response.text();
+    while(text.replace("((end))", "").matchAll("((").length != files.length - 1) {
+        if(DEBUG) console.log("Generating more");
+        const prompt = `You didn't generate a grade for all the works. Generate more.
+You should still say ((end)) at the end of your response.`;
+        text = text.replace("((end))", "");
+        const result = await chat.sendMessage(prompt);
+        const response = await result.response;
+        text += response.text();
+    }
     if(DEBUG) console.log(text);
     res.status(200).end(text);
 });
